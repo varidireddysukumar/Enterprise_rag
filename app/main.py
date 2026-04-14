@@ -1,19 +1,16 @@
-import os
-import openai
 from fastapi import FastAPI
+import os
 
 app = FastAPI()
 
-openai.api_key = os.getenv("OPENAI_API_KEY")
-
 @app.get("/ask")
 def ask(query: str):
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[{"role": "user", "content": query}]
-    )
+    api_key = os.getenv("OPENAI_API_KEY")
+
+    if not api_key:
+        return {"error": "API key missing"}
 
     return {
         "question": query,
-        "answer": response["choices"][0]["message"]["content"]
+        "answer": "API connected but OpenAI call not added yet"
     }
