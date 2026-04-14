@@ -1,9 +1,10 @@
+import os
 import openai
 from fastapi import FastAPI
 
 app = FastAPI()
 
-openai.api_key = "YOUR_API_KEY"
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 @app.get("/ask")
 def ask(query: str):
