@@ -1,11 +1,18 @@
+import openai
 from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/")
-def home():
-    return {"message": "RAG API Running"}
+openai.api_key = "YOUR_API_KEY"
 
 @app.get("/ask")
-def ask(q: str):
-    return {"answer": f"You asked: {q}"}
+def ask(query: str):
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": query}]
+    )
+
+    return {
+        "question": query,
+        "answer": response["choices"][0]["message"]["content"]
+    }
